@@ -30,8 +30,8 @@
       height: 110px;
       border-radius: 50%;
       border: 6px solid #67e8f9;
-      background: url('https://i.imgur.com/f3aKI6f.jpg?updated=2026') center/cover;
-      box-shadow: 0 0 40px rgba(103, 232, 249, 0.8);
+      background: url('https://i.imgur.com/f3aKI6f.jpg?20260415') center/cover;
+      box-shadow: 0 0 40px rgba(103, 232, 249, 0.9);
       margin: 0 auto 15px;
     }
     .title {
@@ -75,18 +75,8 @@
       font-weight: 600;
       cursor: pointer;
     }
-    .btn-primary {
-      background: #67e8f9;
-      color: #0f172a;
-    }
-    .btn-secondary {
-      background: #334155;
-      color: #e0f2fe;
-    }
-
-    .instruction {
-      line-height: 1.6;
-    }
+    .btn-primary { background: #67e8f9; color: #0f172a; }
+    .btn-secondary { background: #334155; color: #e0f2fe; }
   </style>
 </head>
 <body>
@@ -97,7 +87,6 @@
       <div class="subtitle">Быстрый и безопасный VPN</div>
     </div>
 
-    <!-- Информация о подписке -->
     <div class="card">
       <div class="info-row">
         <span class="label">Статус:</span>
@@ -117,7 +106,6 @@
       </div>
     </div>
 
-    <!-- Выбор платформы -->
     <div class="card">
       <select id="platform" onchange="changeInstruction()" style="width:100%; padding:14px; border-radius:12px; background:#1e2937; color:white; border:1px solid #67e8f9;">
         <option value="ios">iOS (iPhone / iPad)</option>
@@ -125,13 +113,11 @@
       </select>
     </div>
 
-    <!-- Инструкция -->
     <div class="card instruction" id="instruction-card">
       <h3>📱 Как подключить</h3>
-      <p id="instruction-text">Выберите вашу платформу выше</p>
+      <p id="instruction-text">Выберите платформу выше</p>
     </div>
 
-    <!-- Кнопки действий -->
     <div class="card">
       <button class="btn btn-primary" onclick="addSubscription()">➕ Добавить подписку в Happ</button>
       <button class="btn btn-secondary" onclick="copyLink()">📋 Скопировать ссылку подписки</button>
@@ -150,7 +136,6 @@
     tg.setHeaderColor("#0f172a");
     tg.setBackgroundColor("#0f172a");
 
-    // Данные подписки (пока тестовые)
     let subscriptionData = {
       status: "Активна ✅",
       expire: "13 мая 2026",
@@ -171,34 +156,20 @@
       const textEl = document.getElementById("instruction-text");
 
       if (platform === "ios") {
-        textEl.innerHTML = `
-          1. Установите приложение <strong>Happ</strong> из App Store<br><br>
-          2. Откройте Happ и разрешите VPN-конфигурацию<br><br>
-          3. Нажмите кнопку «Добавить подписку» ниже
-        `;
+        textEl.innerHTML = `1. Установите <strong>Happ</strong> из App Store<br><br>2. Разрешите VPN-конфигурацию<br><br>3. Нажмите кнопку ниже`;
       } else {
-        textEl.innerHTML = `
-          1. Установите приложение <strong>Happ</strong> из Google Play<br><br>
-          2. Откройте Happ и разрешите VPN<br><br>
-          3. Нажмите кнопку «Добавить подписку» ниже
-        `;
+        textEl.innerHTML = `1. Установите <strong>Happ</strong> из Google Play<br><br>2. Разрешите VPN<br><br>3. Нажмите кнопку ниже`;
       }
     }
 
     function addSubscription() {
-      if (!subscriptionData.subscriptionUrl || subscriptionData.subscriptionUrl.includes("твоя_ссылка")) {
-        tg.showAlert("Подписка ещё не активна");
-        return;
-      }
-
       tg.showPopup({
         title: "Добавить подписку",
-        message: "Ссылка будет скопирована.\nОткройте Happ → Добавьте подписку",
+        message: "Ссылка будет скопирована в буфер",
         buttons: [{id: "copy", type: "default", text: "Скопировать"}]
-      }, function() {
-        navigator.clipboard.writeText(subscriptionData.subscriptionUrl).then(() => {
-          tg.showAlert("✅ Ссылка скопирована в буфер!");
-        });
+      }, () => {
+        navigator.clipboard.writeText(subscriptionData.subscriptionUrl);
+        tg.showAlert("✅ Ссылка скопирована!");
       });
     }
 
@@ -208,8 +179,7 @@
       });
     }
 
-    // Запуск
-    window.onload = function() {
+    window.onload = () => {
       updateSubscriptionInfo();
       changeInstruction();
     };

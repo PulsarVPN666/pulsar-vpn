@@ -31,7 +31,7 @@
       border-radius: 50%;
       border: 6px solid #67e8f9;
       background: url('https://i.imgur.com/f3aKI6f.jpg?20260415') center/cover;
-      box-shadow: 0 0 40px rgba(103, 232, 249, 0.9);
+      box-shadow: 0 0 45px rgba(103, 232, 249, 0.9);
       margin: 0 auto 15px;
     }
     .title {
@@ -87,6 +87,7 @@
       <div class="subtitle">Быстрый и безопасный VPN</div>
     </div>
 
+    <!-- Информация о подписке -->
     <div class="card">
       <div class="info-row">
         <span class="label">Статус:</span>
@@ -106,6 +107,7 @@
       </div>
     </div>
 
+    <!-- Выбор платформы -->
     <div class="card">
       <select id="platform" onchange="changeInstruction()" style="width:100%; padding:14px; border-radius:12px; background:#1e2937; color:white; border:1px solid #67e8f9;">
         <option value="ios">iOS (iPhone / iPad)</option>
@@ -113,11 +115,13 @@
       </select>
     </div>
 
+    <!-- Инструкция -->
     <div class="card instruction" id="instruction-card">
       <h3>📱 Как подключить</h3>
-      <p id="instruction-text">Выберите платформу выше</p>
+      <p id="instruction-text">Выберите вашу платформу выше</p>
     </div>
 
+    <!-- Кнопки -->
     <div class="card">
       <button class="btn btn-primary" onclick="addSubscription()">➕ Добавить подписку в Happ</button>
       <button class="btn btn-secondary" onclick="copyLink()">📋 Скопировать ссылку подписки</button>

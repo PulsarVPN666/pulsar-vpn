@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PulsarVPN</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: #e0f2fe;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 5px solid #67e8f9;
+      background: url('https://i.imgur.com/f3aKI6f.jpg') center/cover;
+      box-shadow: 0 0 35px rgba(103, 232, 249, 0.7);
+      margin: 0 auto;
+    }
+    .title {
+      font-size: 29px;
+      font-weight: 700;
+      margin: 12px 0 4px;
+      color: #67e8f9;
+      text-shadow: 0 0 20px rgba(103, 232, 249, 0.6);
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid #67e8f9;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .status {
+      background: #22c55e;
+      color: #000;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .info-item {
+      background: rgba(30, 58, 138, 0.7);
+      padding: 14px 12px;
+      border-radius: 14px;
+      text-align: center;
+    }
+    .label {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+    .value {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    select {
+      width: 100%;
+      padding: 14px;
+      background: #1e2937;
+      color: #e0f2fe;
+      border: 1px solid #67e8f9;
+      border-radius: 12px;
+      margin: 16px 0;
+    }
+    .btn {
+      width: 100%;
+      padding: 16px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: #67e8f9; color: #0f172a; }
+    .btn-secondary { background: #334155; color: #e0f2fe; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo"></div>
+      <div class="title">PulsarVPN💫</div>
+    </div>
+
+    <div class="card">
+      <div class="user-info">
+        <strong id="username">Ваше имя</strong>
+        <span class="status" id="status">Активна</span>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="label">Истекает</div>
+          <div class="value" id="expire">13.05.2026</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Трафик</div>
+          <div class="value" id="traffic">0 GB / ∞</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Выбор устройства -->
+    <select id="deviceType" onchange="changeInstruction()">
+      <option value="ios">iOS (iPhone / iPad)</option>
+      <option value="android">Android</option>
+    </select>
+
+    <!-- Инструкция -->
+    <div class="card" id="instruction">
+      <h3>1. Установка приложения</h3>
+      <p>Откройте App Store и установите приложение <strong>Happ</strong>.<br>
+      Запустите его и разрешите VPN-подключение.</p>
+    </div>
+
+    <div class="card">
+      <h3>2. Добавление подписки</h3>
+      <button class="btn btn-primary" onclick="addSubscription()">Добавить подписку в Happ</button>
+    </div>
+
+    <div class="card">
+      <h3>3. Готово! ✅</h3>
+      <p>В главном меню приложения нажмите большую кнопку включения.<br>
+      Выберите сервер из списка.</p>
+    </div>
+  </div>
+
+  <script>
+    // Данные (можно менять)
+    document.getElementById("username").textContent = "Твоё имя";
+    document.getElementById("expire").textContent = "13.05.2026";
+    document.getElementById("traffic").textContent = "45 GB / ∞";
+
+    function changeInstruction() {
+      const type = document.getElementById("deviceType").value;
+      const instr = document.getElementById("instruction");
+
+      if (type === "ios") {
+        instr.innerHTML = `
+          <h3>1. Установка приложения</h3>
+          <p>Откройте App Store и установите приложение <strong>Happ</strong>.<br>
+          Запустите его и в окне VPN-конфигурации нажмите <strong>Allow</strong> и введите свой пароль.</p>
+        `;
+      } else {
+        instr.innerHTML = `
+          <h3>1. Установка приложения</h3>
+          <p>Скачайте приложение <strong>Happ</strong> из Google Play.<br>
+          Запустите его и разрешите подключение VPN.</p>
+        `;
+      }
+    }
+
+    function addSubscription() {
+      alert("✅ Подписка добавлена в Happ!\n\nТеперь подключитесь в приложении.");
+    }
+
+    // Для Telegram Mini App
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  </script>
+</body>
+</html>

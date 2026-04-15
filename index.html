@@ -131,7 +131,7 @@
       <p id="instruction-text">Выберите вашу платформу выше</p>
     </div>
 
-    <!-- Кнопка добавления подписки -->
+    <!-- Кнопки действий -->
     <div class="card">
       <button class="btn btn-primary" onclick="addSubscription()">➕ Добавить подписку в Happ</button>
       <button class="btn btn-secondary" onclick="copyLink()">📋 Скопировать ссылку подписки</button>
@@ -139,7 +139,7 @@
 
     <div class="card">
       <h3>✅ После подключения</h3>
-      <p>Откройте приложение Happ → нажмите большую кнопку включения → выберите сервер из списка.</p>
+      <p>Откройте Happ → нажмите большую кнопку включения → выберите сервер.</p>
     </div>
   </div>
 
@@ -150,13 +150,13 @@
     tg.setHeaderColor("#0f172a");
     tg.setBackgroundColor("#0f172a");
 
-    // Пример данных подписки (в будущем будешь передавать из бота)
+    // Данные подписки (пока тестовые)
     let subscriptionData = {
       status: "Активна ✅",
       expire: "13 мая 2026",
       devices: "2 / 3",
       traffic: "∞ GB",
-      subscriptionUrl: "https://sub.24connect.ru/твоя_ссылка_здесь"   // ← сюда будет приходить реальная ссылка
+      subscriptionUrl: "https://sub.24connect.ru/твоя_ссылка_здесь"   // ← сюда потом будем подставлять реальную ссылку
     };
 
     function updateSubscriptionInfo() {
@@ -172,43 +172,43 @@
 
       if (platform === "ios") {
         textEl.innerHTML = `
-          1. Установите приложение <strong>Happ</strong> из App Store<br>
-          2. Откройте приложение и разрешите VPN-конфигурацию<br>
+          1. Установите приложение <strong>Happ</strong> из App Store<br><br>
+          2. Откройте Happ и разрешите VPN-конфигурацию<br><br>
           3. Нажмите кнопку «Добавить подписку» ниже
         `;
       } else {
         textEl.innerHTML = `
-          1. Установите приложение <strong>Happ</strong> из Google Play<br>
-          2. Откройте приложение и разрешите VPN<br>
+          1. Установите приложение <strong>Happ</strong> из Google Play<br><br>
+          2. Откройте Happ и разрешите VPN<br><br>
           3. Нажмите кнопку «Добавить подписку» ниже
         `;
       }
     }
 
     function addSubscription() {
-      if (!subscriptionData.subscriptionUrl) {
+      if (!subscriptionData.subscriptionUrl || subscriptionData.subscriptionUrl.includes("твоя_ссылка")) {
         tg.showAlert("Подписка ещё не активна");
         return;
       }
 
       tg.showPopup({
         title: "Добавить подписку",
-        message: "Ссылка будет скопирована в буфер. Откройте Happ и вставьте её.",
-        buttons: [{id: "copy", type: "default", text: "Скопировать и продолжить"}]
+        message: "Ссылка будет скопирована.\nОткройте Happ → Добавьте подписку",
+        buttons: [{id: "copy", type: "default", text: "Скопировать"}]
       }, function() {
         navigator.clipboard.writeText(subscriptionData.subscriptionUrl).then(() => {
-          tg.showAlert("✅ Ссылка скопирована!\n\nОткройте Happ → Добавьте подписку");
+          tg.showAlert("✅ Ссылка скопирована в буфер!");
         });
       });
     }
 
     function copyLink() {
       navigator.clipboard.writeText(subscriptionData.subscriptionUrl).then(() => {
-        tg.showAlert("Ссылка скопирована в буфер обмена");
+        tg.showAlert("Ссылка скопирована");
       });
     }
 
-    // Инициализация
+    // Запуск
     window.onload = function() {
       updateSubscriptionInfo();
       changeInstruction();
